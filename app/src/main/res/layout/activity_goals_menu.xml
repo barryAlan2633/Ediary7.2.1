@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/ProfilePage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="gotoProfilePageActivity"
+            android:background="#009e73"
+            app:srcCompat="@drawable/personalprofile" />
+
+        <ImageButton
+            android:id="@+id/Health"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="gotoHealthCareMenuActivity"
+            android:background="#e69f00"
+            app:srcCompat="@drawable/heart1" />
+        <ImageButton
+            android:id="@+id/Personal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#009e73"
+            app:srcCompat="@drawable/goals1" />
+        <ImageButton
+            android:id="@+id/Contacts"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#e69f00"
+            app:srcCompat="@drawable/contacts"
+            android:onClick="gotoContactsActivity" />
+        <ImageButton
+            android:id="@+id/settings"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#009e73"
+            android:onClick="gotoSettingsActivity" />
+        <ImageButton
+            android:id="@+id/logOut"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#e69f00"
+            android:onClick="gotoLoginActivity"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lv_Ggoals"
+            android:layout_weight="9"></ListView>
+        <Button
+            android:id="@+id/btn_GnewGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginBottom="28dp"
+            android:layout_marginStart="104dp"
+            android:text="New goal"
+            android:onClick="gotoNewGoalActivity"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+  </LinearLayout>
+</LinearLayout>
+
+
+
+
+
+
+

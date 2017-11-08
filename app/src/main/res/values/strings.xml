@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Ediary7.0</string>
+    <string-array name="GoalTypes">
+        <item>Financial</item>
+        <item>Educational</item>
+        <item>Long Term</item>
+        <item>Short Term</item>
+    </string-array>
+</resources>
