@@ -11,9 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static barryalan.ediary70.databaseHelper.COLUMN_USER_GOALS1;
-import static barryalan.ediary70.databaseHelper.COLUMN_USER_ID;
-import static barryalan.ediary70.databaseHelper.TABLE_USER;
+
 
 
 /**
@@ -31,6 +29,9 @@ public class shortTermGoals extends AppCompatActivity {
 
     Button save;
     Button edit;
+
+
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +62,7 @@ public class shortTermGoals extends AppCompatActivity {
 
                 String goal = ShortTerm1.getText().toString();
 
-                //passes goal into setGoal in database
-                db.setGoal(goal);
+
 
             }
         });

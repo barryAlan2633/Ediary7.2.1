@@ -42,9 +42,9 @@ class databaseHelper extends SQLiteOpenHelper {
 
     //TABLE COLUMN NAMES FOR PERSONAL GOALS
 
-    public static final String COLUMN_USER_GOALS1 = "short_goal1";
-    private static final String COLUMN_USER_GOALS2 = "short_goal2";
-    private static final String COLUMN_USER_GOALS3 = "short_goal3";
+    public static final String COLUMN_USER_SGOALSNAME = "short_goal1";
+    private static final String COLUMN_USER_SGOALSDEP = "short_goal2";
+    private static final String COLUMN_USER_SGOALSTIME = "short_goal3";
     private static final String COLUMN_USER_GOALS4 = "short_goal4";
     private static final String COLUMN_USER_LONGGOALS = "long_goals";
 
@@ -65,8 +65,8 @@ class databaseHelper extends SQLiteOpenHelper {
                 COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT," + COLUMN_USER_ALLERGIES
                 + " TEXT," + COLUMN_USER_MEDICATION + " TEXT," + COLUMN_USER_DIET + " TEXT,"
                 + COLUMN_USER_EXCERCISEPLAN + " TEXT," +
-                COLUMN_USER_VITALSIGNS + " TEXT," + COLUMN_USER_GOALS1 + " TEXT," + COLUMN_USER_GOALS2
-                + " TEXT," + COLUMN_USER_GOALS3 + " TEXT," + COLUMN_USER_GOALS4 + " TEXT,"
+                COLUMN_USER_VITALSIGNS + " TEXT," + COLUMN_USER_SGOALSNAME + " TEXT," + COLUMN_USER_SGOALSDEP
+                + " TEXT," + COLUMN_USER_SGOALSTIME + " TEXT," + COLUMN_USER_GOALS4 + " TEXT,"
                 + COLUMN_USER_LONGGOALS + " TEXT" + ")";
 
 
@@ -118,9 +118,9 @@ class databaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_USER_VITALSIGNS, user.getUserVitalSigns());
         values.put(COLUMN_USER_DIET, user.getUserDiet());
         values.put(COLUMN_USER_EXCERCISEPLAN, user.getUserExcercisePlan());
-        values.put(COLUMN_USER_GOALS1, user.getUserGoal1());
-        values.put(COLUMN_USER_GOALS2, user.getUserGoal2());
-        values.put(COLUMN_USER_GOALS3, user.getUserGoal3());
+        values.put(COLUMN_USER_SGOALSNAME, user.getUserGoal1());
+        values.put(COLUMN_USER_SGOALSDEP, user.getUserGoal2());
+        values.put(COLUMN_USER_SGOALSTIME, user.getUserGoal3());
         values.put(COLUMN_USER_GOALS4, user.getUserGoal4());
         values.put(COLUMN_USER_LONGGOALS, user.getUserLongGoal());
 
@@ -179,21 +179,13 @@ class databaseHelper extends SQLiteOpenHelper {
     }
 
     //RETURNS THE NUMBER OF USERS IN THE DATABASE---------------------------------------------------
-    public int getUserCount(){
+    public Cursor getUserCount(){
         //??
-        String countUserQuery = " SELECT * FROM" + TABLE_USER;
-
-        //OPEN DATABASE?
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        //CREATES CURSOR, MAKES IT GO THROUGH THE QUERY AND COUNT IT
-        Cursor cursor = db.rawQuery(countUserQuery, null);
-
-        //CLOSES CURSOR
-        cursor.close();
-
-        return cursor.getCount();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery(" SELECT * FROM " + TABLE_USER, null);
+        return res;
     }
+
 
     //RETURNS A USERS OBJECT FOR THE ID PROVIDED online version--------------------------------------
     user getUser(String username) {
@@ -205,8 +197,8 @@ class databaseHelper extends SQLiteOpenHelper {
         user user;
         try (Cursor cursor = db.query(TABLE_USER, new String[]{COLUMN_USER_ID, COLUMN_USER_NAME, COLUMN_USER_EMAIL,
                         COLUMN_USER_PASSWORD, COLUMN_USER_ALLERGIES, COLUMN_USER_MEDICATION, COLUMN_USER_DIET,
-                        COLUMN_USER_EXCERCISEPLAN, COLUMN_USER_VITALSIGNS, COLUMN_USER_GOALS1, COLUMN_USER_GOALS2,
-                        COLUMN_USER_GOALS3, COLUMN_USER_GOALS4, COLUMN_USER_LONGGOALS}, COLUMN_USER_NAME + "=?",
+                        COLUMN_USER_EXCERCISEPLAN, COLUMN_USER_VITALSIGNS, COLUMN_USER_SGOALSNAME, COLUMN_USER_SGOALSDEP,
+                        COLUMN_USER_SGOALSTIME, COLUMN_USER_GOALS4, COLUMN_USER_LONGGOALS}, COLUMN_USER_NAME + "=?",
                 new String[]{username}, null, null, null, null)) {
 
             //??
@@ -339,24 +331,20 @@ class databaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean setGoal(String g)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        /*Cursor c = db.rawQuery("SELECT * FROM TABLE_USER WHERE COLUMN_USER_NAME=" + un , null);
-        if (c.moveToFirst()) {
-            db.execSQL("INSERT INTO TABLE_USER(COLUMN_USER_GOALS1)VALUES(" + g + "");
-        } else {
-            msg(this, "Invalid");
-        }*/
+    //passes user name, user goal description, user goal time and user name into columns of database
+    public boolean updateGoals(String n, String d, String t, String un){
 
-        //passes goal in goal column of table user
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_GOALS1, g);
-        long result = db.insert(TABLE_USER, null, values);
-        if(result == -1)
-            return false;
-        else
-            return true;
+        values.put(COLUMN_USER_SGOALSNAME, n);
+        values.put(COLUMN_USER_SGOALSDEP, d);
+        values.put(COLUMN_USER_SGOALSTIME, t);
+        db.update(TABLE_USER, values, "user_name =?",new String[] {un} );
+
+        return true;
+
     }
+
+
 
 }

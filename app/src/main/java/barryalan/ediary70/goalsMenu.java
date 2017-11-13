@@ -4,15 +4,30 @@ package barryalan.ediary70;
  * Created by Al on 10/30/2017.
  */
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class goalsMenu extends AppCompatActivity {
+
+    private static final String TAG = "";
+    final databaseHelper db = new databaseHelper(this);
+
+    private ListView lv;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goals_menu);
+
+
+
     }
 
     //LINK TO THE PROFILE PAGE THROUGH THE BUTTON-------------------------------
@@ -57,13 +72,12 @@ public class goalsMenu extends AppCompatActivity {
         startActivity(name);
     }
 
-    //button activities
-    public void gotoShortTermGoalsActivity(View view) {
-        Intent name = new Intent(this, shortTermGoals.class);
-        startActivity(name);
-    }
-    public void gotoLongTermGoalsActivity(View view) {
-        Intent name = new Intent(this, longTermGoals.class);
+
+
+//view the data in  a list view from short term goals
+
+    public void gotoViewDataActivity(View view) {
+        Intent name = new Intent(this, ViewGoalData.class);
         startActivity(name);
     }
 }

@@ -54,7 +54,7 @@ public class longTermGoals extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                db.getUser(User1.currentUserName).setUserLongGoal(LongTerm1.getText().toString());
+                //db.getUser(User1.currentUserName).setUserLongGoal(LongTerm1.getText().toString());
 
 
                 SLongTerm1.setText("Long Term \n" + LongTerm1.getText().toString());
