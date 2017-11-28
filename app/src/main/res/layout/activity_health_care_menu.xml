@@ -16,15 +16,6 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/ProfilePage"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:onClick="gotoProfilePageActivity"
-            android:background="#009e73"
-            app:srcCompat="@drawable/personalprofile" />
-
-        <ImageButton
             android:id="@+id/Health"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -48,19 +39,12 @@
             app:srcCompat="@drawable/contacts"
             android:onClick="gotoContactsActivity" />
         <ImageButton
-            android:id="@+id/Settings"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#009e73"
-            android:onClick="gotoSettingsActivity" />
-        <ImageButton
             android:id="@+id/logOut"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#e69f00"
-            android:onClick="gotoLoginActivity"/>
+            android:background="#009e73"
+            android:onClick="logoutVerificationMessage"/>
 
     </LinearLayout>
 

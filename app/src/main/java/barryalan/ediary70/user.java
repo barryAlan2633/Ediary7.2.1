@@ -30,7 +30,7 @@ public class user {
     public static String currentUserName = "";
     public static int currentUserID;
     public static int currentUserGoalNumber;
-
+    public static int currentNumberOfGoals;
 
     //Constructors----------------------------------------------------------------------------------
     //Default constructor
@@ -121,7 +121,7 @@ public class user {
 
     public String getUserGoalDescriptions() {return userGoalDescriptions;}
 
-    public String getUserGoalTime() {return userGoalTime;}
+    public String getUserGoalTimes() {return userGoalTime;}
 
     public String getUserGoal4() {return userGoal4;}
 

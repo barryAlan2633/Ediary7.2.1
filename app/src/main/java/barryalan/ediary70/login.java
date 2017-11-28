@@ -56,7 +56,7 @@ public class login extends AppCompatActivity {
                         }
                         else {
                             User1.setCurrentUserName(et_Lusername.getText().toString());
-                            gotoProfilePageActivity(v);
+                            gotoHealthCareMenuActivity(v);
                         }
                     }
                 }
@@ -157,12 +157,6 @@ public class login extends AppCompatActivity {
         }
     }
 
-    //LINK THE LOGIN PAGE TO THE PROFILE PAGE THROUGH THE BUTTON------------------------------------
-    public void gotoProfilePageActivity(View view) {
-        Intent name = new Intent(this, profilePage.class);
-        startActivity(name);
-    }
-
     //LINK THE LOGIN PAGE TO THE REGISTRATION PAGE THROUGH THE BUTTON-------------------------------
     public void gotoRegistrationActivity(View view) {
         Intent name = new Intent(this, registration.class);
@@ -172,6 +166,12 @@ public class login extends AppCompatActivity {
     //LINK THE LOGIN PAGE TO THE FORGOT LOGIN PAGE--------------------------------------------------
     public void gotoForgotLoginActivity(View view) {
         Intent name = new Intent(this, forgotLogin.class);
+        startActivity(name);
+    }
+
+    //LINK TO THE HEALTH MENU PAGE THROUGH THE BUTTON-------------------------------
+    public void gotoHealthCareMenuActivity(View view) {
+        Intent name = new Intent(this, healthCareMenu.class);
         startActivity(name);
     }
 

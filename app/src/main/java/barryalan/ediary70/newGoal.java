@@ -61,17 +61,15 @@ public class newGoal extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
 
-                //when pressing on the save button
+                //When pressing on the save button
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //if long term is selected on the drop down
+                        //If long term is selected on the drop down
                         if (position == 0) {
-                            //Toast.makeText(getBaseContext(), "LONG TERRRM", Toast.LENGTH_SHORT).show();
                         }
-                        //if short term is selected on the drop down
+                        //If short term is selected on the drop down
                         else if (position == 1){
-                            //Toast.makeText(getBaseContext(), "SHORT TERRRM", Toast.LENGTH_SHORT).show();
 
                             //Variables
                             String typeOfTime = "No unit of time assigned";
@@ -113,8 +111,6 @@ public class newGoal extends AppCompatActivity {
         });
 
 
-
-
         //this was to make sure we were saving data and a way to view it
         //we dont have to keep this but I liked it for testing purposes
         //can be reusable in other pages to test
@@ -128,8 +124,8 @@ public class newGoal extends AppCompatActivity {
                     //show message
                     showmessage("Error", "No data found");
                     return;
-
                 }
+
                 //if there is data
                 StringBuffer buffer = new StringBuffer();
                 //moves cursor to next result
@@ -148,7 +144,6 @@ public class newGoal extends AppCompatActivity {
 
     }
 
-
     public void showmessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -157,11 +152,11 @@ public class newGoal extends AppCompatActivity {
         builder.setMessage(message);
         builder.show();
     }
+
     //LINK TO THE LOGIN PAGE THROUGH THE BUTTON-------------------------------
     public void gotoGoalMenuActivity(View view) {
         Intent name = new Intent(this, goalsMenu.class);
         startActivity(name);
     }
-
 
 }

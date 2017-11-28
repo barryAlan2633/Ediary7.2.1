@@ -1,6 +1,8 @@
 package barryalan.ediary70;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.view.View;
@@ -40,18 +42,6 @@ public class healthCareMenu extends AppCompatActivity {
         }
     }
 
-    //LINK TO THE PROFILE PAGE THROUGH THE BUTTON-------------------------------
-    public void gotoProfilePageActivity(View view) {
-        Intent name = new Intent(this, profilePage.class);
-        startActivity(name);
-    }
-
-    //LINK TO THE HEALTH MENU PAGE THROUGH THE BUTTON-------------------------------
-    public void gotoHealthCareMenuActivity(View view) {
-        Intent name = new Intent(this, healthCareMenu.class);
-        startActivity(name);
-    }
-
     //LINK TO THE GOALS MENU PAGE THROUGH THE BUTTON-------------------------------
     public void gotoGoalsMenuActivity(View view) {
         Intent name = new Intent(this, goalsMenu.class);
@@ -64,16 +54,37 @@ public class healthCareMenu extends AppCompatActivity {
         startActivity(name);
     }
 
-    //LINK TO THE SETTINGS PAGE THROUGH THE BUTTON-------------------------------
-    public void gotoSettingsActivity(View view) {
-        Intent name = new Intent(this, settingsPage.class);
-        startActivity(name);
-    }
-
     //LINK TO THE LOGIN PAGE THROUGH THE BUTTON-------------------------------
     public void gotoLoginActivity(View view) {
         Intent name = new Intent(this, login.class);
         startActivity(name);
+    }
+
+    public void logoutVerificationMessage(final View v){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        //Sets pop up box content
+        alertDialog.setTitle("Are you sure you want to log out?");
+        alertDialog.setMessage("You will be required to re-enter your login information to come back");
+
+        //If the Log out button is pressed inside the pop up text box
+        alertDialog.setPositiveButton("Log out", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+                gotoLoginActivity(v);
+
+            }
+        });
+
+        //If the Cancel button is pressed inside the pop up text box
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+            }
+        });
+
+        //Make the pop up box visible
+        alertDialog.show();
     }
 }
 

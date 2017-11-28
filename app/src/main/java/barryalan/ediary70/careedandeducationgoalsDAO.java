@@ -11,6 +11,8 @@ public class careedandeducationgoalsDAO {
 
 
     public careedandeducationgoalsDAO(){}
+
+
     public careedandeducationgoalsDAO(String ceGoals) {
 
         this.ceGoals = ceGoals;

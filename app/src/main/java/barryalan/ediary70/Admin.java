@@ -23,13 +23,12 @@ import static barryalan.ediary70.databaseHelper.TABLE_USER;
 
 public class Admin extends AppCompatActivity  implements AdapterView.OnItemClickListener{
 
-    //Open database for access
     final databaseHelper db = new databaseHelper(this);
+
     //Create buttons to link to the display
     ListView lv_admin;
     Button btn_delete;
 
-    //Everything happening on this page is executed from here
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -38,6 +37,27 @@ public class Admin extends AppCompatActivity  implements AdapterView.OnItemClick
         lv_admin = (ListView) findViewById(R.id.lv_admin);
         populateGoalListView();
 
+    }
+
+    //When an item on the list view is clicked
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
+        final TextView tv = (TextView) view;
+
+        //Display a toast message
+        Toast.makeText(this,"You have selected " + tv.getText(), Toast.LENGTH_SHORT).show();
+
+        //Link to the delete button on the Admin page
+        btn_delete = (Button) findViewById(R.id.btn_delete);
+
+        //If the delete button on the admin page is clicked on
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Create and display pop up text with two buttons
+                showAlertDialog(tv, "Are you sure you want to delete?", "The data of this user will be lost forever!");
+            }
+        });
     }
 
     //Adds all content into the list view on the screen
@@ -52,7 +72,7 @@ public class Admin extends AppCompatActivity  implements AdapterView.OnItemClick
         //If the database is empty
         if (res.getCount() == 0) {
             //show message
-            showmessage("Error", "No data found");
+            deleteVerificationMessage("Error", "No data found");
             return;
         }
 
@@ -79,8 +99,6 @@ public class Admin extends AppCompatActivity  implements AdapterView.OnItemClick
         alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which){
-                //Displays toast message
-                Toast.makeText(getApplicationContext(), title + " has been deleted" ,Toast.LENGTH_SHORT).show();
 
                 //Get string text from the selected box in the list view
                 final TextView tv = (TextView) v;
@@ -112,8 +130,14 @@ public class Admin extends AppCompatActivity  implements AdapterView.OnItemClick
         alertDialog.show();
     }
 
+    //LINK THE LOGIN PAGE TO THE ADMIN PAGE--------------------------------------------------
+    public void gotoLoginActivity(View view) {
+        Intent name = new Intent(this, login.class);
+        startActivity(name);
+    }
+
     //Displays pop up box with no buttons
-    public void showmessage(String title, String message) {
+    public void deleteVerificationMessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         //Set the content and settings of the text box
@@ -124,31 +148,30 @@ public class Admin extends AppCompatActivity  implements AdapterView.OnItemClick
         builder.show();
     }
 
-    //When an item on the list view is clicked
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
-        final TextView tv = (TextView) view;
+    public void logoutVerificationMessage(final View v){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
-        //Display a toast message
-        Toast.makeText(this,"You have selected " + tv.getText(), Toast.LENGTH_SHORT).show();
+        //Sets pop up box content
+        alertDialog.setTitle("Are you sure you want to log out?");
+        alertDialog.setMessage("You will be required to re-enter your login information to come back");
 
-        //Link to the delete button on the Admin page
-        btn_delete = (Button) findViewById(R.id.btn_delete);
-
-        //If the delete button on the admin page is clicked on
-        btn_delete.setOnClickListener(new View.OnClickListener() {
+        //If the Log out button is pressed inside the pop up text box
+        alertDialog.setPositiveButton("Log out", new DialogInterface.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                //Create and display pop up text with two buttons
-                showAlertDialog(tv, "Are you sure you want to delete?", "");
+            public void onClick(DialogInterface dialog, int which){
+                gotoLoginActivity(v);
+
             }
         });
-    }
 
-    //LINK THE LOGIN PAGE TO THE ADMIN PAGE--------------------------------------------------
-    public void gotoLoginActivity(View view) {
-        Intent name = new Intent(this, login.class);
-        startActivity(name);
-    }
+        //If the Cancel button is pressed inside the pop up text box
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+            }
+        });
 
+        //Make the pop up box visible
+        alertDialog.show();
+    }
 }

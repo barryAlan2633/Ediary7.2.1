@@ -19,13 +19,9 @@
         <activity android:name=".login" />
         <activity android:name=".registration" />
         <activity android:name=".forgotLogin" />
-        <activity android:name=".profilePage" />
         <activity android:name=".goalsMenu" />
         <activity android:name=".healthCareMenu" />
-        <activity android:name=".shortTermGoals" />
-        <activity android:name=".longTermGoals" />
         <activity android:name=".contactsPage" />
-        <activity android:name=".settingsPage" />
         <activity android:name=".newGoal" />
         <activity android:name=".Admin" />
         <activity android:name=".EditGoal"></activity>

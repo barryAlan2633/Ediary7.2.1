@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
         android:layout_marginStart="76dp"
-        android:onClick="gotoLoginActivity"
+        android:onClick="logoutVerificationMessage"
         android:text="Sign out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
