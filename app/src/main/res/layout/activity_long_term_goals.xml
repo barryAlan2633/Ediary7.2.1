@@ -60,7 +60,8 @@
         app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_LongTerm1" />
+        app:layout_constraintTop_toBottomOf="@+id/et_LongTerm1"
+        android:background="@color/saveButton"/>
 
     <Button
         android:id="@+id/btn_Gedit"

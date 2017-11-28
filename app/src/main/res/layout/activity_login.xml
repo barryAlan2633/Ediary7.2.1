@@ -42,7 +42,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintHorizontal_bias="0.267"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="60dp" />
+        android:layout_marginBottom="60dp"
+        android:background="@color/signInButton"
+        />
 
     <Button
         android:id="@+id/btn_Lregister"
@@ -56,7 +58,8 @@
         android:layout_marginRight="84dp"
         app:layout_constraintLeft_toRightOf="@+id/btn_Lsignin"
         android:layout_marginLeft="8dp"
-        app:layout_constraintHorizontal_bias="1.0" />
+        app:layout_constraintHorizontal_bias="1.0"
+        android:background="@color/registerButton"/>
 
     <Button
         android:id="@+id/btn_LforgotLogin"

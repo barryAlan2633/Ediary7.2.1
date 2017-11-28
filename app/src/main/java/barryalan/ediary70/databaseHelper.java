@@ -9,7 +9,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+import android.text.TextUtils;
 import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 
 class databaseHelper extends SQLiteOpenHelper {
     //CLASS VARIABLES-------------------------------------------------------------------------------
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
     private static final String DATABASE_NAME = "LoginManager";
     public static final String TABLE_USER = "users";
 
@@ -30,6 +30,7 @@ class databaseHelper extends SQLiteOpenHelper {
     //USER TABLE COLUMN NAMES-----------------------------------------------------------------------
     public static final String COLUMN_USER_ID = "user_id";
     private static final String COLUMN_USER_NAME = "user_name";
+    private static final String COLUMN_USER_USERNAME = "user_username";
     private static final String COLUMN_USER_EMAIL = "user_email";
     private static final String COLUMN_USER_PASSWORD = "user_password";
 
@@ -41,7 +42,6 @@ class databaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_EXCERCISEPLAN = "excercise_plan";
 
     //TABLE COLUMN NAMES FOR PERSONAL GOALS
-
     public static final String COLUMN_USER_SGOALSNAME = "short_goal1";
     private static final String COLUMN_USER_SGOALSDEP = "short_goal2";
     private static final String COLUMN_USER_SGOALSTIME = "short_goal3";
@@ -60,18 +60,24 @@ class databaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //CREATES QUERY
-        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
-                + COLUMN_USER_ID + " INTEGER PRIMARY KEY," + COLUMN_USER_NAME + " TEXT," +
-                COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT," + COLUMN_USER_ALLERGIES
-                + " TEXT," + COLUMN_USER_MEDICATION + " TEXT," + COLUMN_USER_DIET + " TEXT,"
-                + COLUMN_USER_EXCERCISEPLAN + " TEXT," +
-                COLUMN_USER_VITALSIGNS + " TEXT," + COLUMN_USER_SGOALSNAME + " TEXT," + COLUMN_USER_SGOALSDEP
-                + " TEXT," + COLUMN_USER_SGOALSTIME + " TEXT," + COLUMN_USER_GOALS4 + " TEXT,"
-                + COLUMN_USER_LONGGOALS + " TEXT" + ")";
-
-
-
-
+        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER
+                + "("
+                + COLUMN_USER_ID + " INTEGER PRIMARY KEY,"
+                + COLUMN_USER_NAME + " TEXT,"
+                + COLUMN_USER_USERNAME + " TEXT,"
+                + COLUMN_USER_EMAIL + " TEXT,"
+                + COLUMN_USER_PASSWORD + " TEXT,"
+                + COLUMN_USER_ALLERGIES + " TEXT,"
+                + COLUMN_USER_MEDICATION + " TEXT,"
+                + COLUMN_USER_DIET + " TEXT,"
+                + COLUMN_USER_EXCERCISEPLAN + " TEXT,"
+                + COLUMN_USER_VITALSIGNS + " TEXT,"
+                + COLUMN_USER_SGOALSNAME + " TEXT,"
+                + COLUMN_USER_SGOALSDEP + " TEXT,"
+                + COLUMN_USER_SGOALSTIME + " TEXT,"
+                + COLUMN_USER_GOALS4 + " TEXT,"
+                + COLUMN_USER_LONGGOALS + " TEXT"
+                + ")";
 
         //CREATES TABLE IN THE DATABASE USING THE QUERY
         db.execSQL(CREATE_USER_TABLE);
@@ -95,8 +101,17 @@ class databaseHelper extends SQLiteOpenHelper {
         //CREATING COLUMNS WITH INFORMATION AND INPUTTING THEM INTO VALUES
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER_NAME, user.getUserName());
+        values.put(COLUMN_USER_USERNAME, user.getUserUsername());
         values.put(COLUMN_USER_EMAIL, user.getUserEmail());
         values.put(COLUMN_USER_PASSWORD, user.getuserPassword());
+        values.put(COLUMN_USER_ALLERGIES, user.getUserAllergies());
+        values.put(COLUMN_USER_MEDICATION, user.getUserMedications());
+        values.put(COLUMN_USER_DIET, user.getUserDiet());
+        values.put(COLUMN_USER_EXCERCISEPLAN, user.getUserExcercisePlan());
+        values.put(COLUMN_USER_VITALSIGNS, user.getUserVitalSigns());
+        values.put(COLUMN_USER_SGOALSNAME, user.getUserGoalNames());
+        values.put(COLUMN_USER_SGOALSDEP, user.getUserGoalDescriptions());
+        values.put(COLUMN_USER_SGOALSTIME, user.getUserGoalTime());
 
         //INSERTING VALUES INTO THE DATABASE UNDER THE USER
         db.insert(TABLE_USER, null, values);
@@ -112,15 +127,16 @@ class databaseHelper extends SQLiteOpenHelper {
         //CREATING COLUMNS WITH INFORMATION FROM THE PARAMATER AND INPUTING THEM INTO VALUES
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER_NAME, user.getUserName());
+        values.put(COLUMN_USER_USERNAME, user.getUserUsername());
         values.put(COLUMN_USER_EMAIL, user.getUserEmail());
         values.put(COLUMN_USER_ALLERGIES, user.getUserAllergies());
         values.put(COLUMN_USER_MEDICATION, user.getUserMedications());
         values.put(COLUMN_USER_VITALSIGNS, user.getUserVitalSigns());
         values.put(COLUMN_USER_DIET, user.getUserDiet());
         values.put(COLUMN_USER_EXCERCISEPLAN, user.getUserExcercisePlan());
-        values.put(COLUMN_USER_SGOALSNAME, user.getUserGoal1());
-        values.put(COLUMN_USER_SGOALSDEP, user.getUserGoal2());
-        values.put(COLUMN_USER_SGOALSTIME, user.getUserGoal3());
+        values.put(COLUMN_USER_SGOALSNAME, user.getUserGoalNames());
+        values.put(COLUMN_USER_SGOALSDEP, user.getUserGoalDescriptions());
+        values.put(COLUMN_USER_SGOALSTIME, user.getUserGoalTime());
         values.put(COLUMN_USER_GOALS4, user.getUserGoal4());
         values.put(COLUMN_USER_LONGGOALS, user.getUserLongGoal());
 
@@ -130,18 +146,19 @@ class databaseHelper extends SQLiteOpenHelper {
 
     }
 
-    //DELETE A USER FROM DATABASE BY ID-------------------------------------------------------------
-    public void deleteUser(user user)
+    //DELETE A USER FROM DATABASE BY USER ID----------------------------------------------------
+    public void deleteUser(int userID)
     {
         //OPEN DATABASE?
         SQLiteDatabase db = this.getWritableDatabase();
 
         //DELETE USER
-        db.delete(TABLE_USER, COLUMN_USER_ID + "= ?", new String[]{String.valueOf(user.getId())});
+        db.delete(TABLE_USER, COLUMN_USER_ID + "= ?", new String[]{Integer.toString(userID)});
 
         //ALWAYS CLOSE THE DATABASE
         db.close();
     }
+
 
     //RETURNS A LIST OF USERS WHICH ARE ON THE DATABASE, CAN BE USED TO ACCESS THEIR DATA-----------
     List<user> getUsers()
@@ -165,8 +182,17 @@ class databaseHelper extends SQLiteOpenHelper {
                 user user = new user();
                 user.setUserId(Integer.parseInt(cursor.getString(0)));
                 user.setUserName(cursor.getString(1));
-                user.setUserEmail(cursor.getString(2));
-                user.setUserPassword(cursor.getString(3));
+                user.setUserUsername(cursor.getString(2));
+                user.setUserEmail(cursor.getString(3));
+                user.setUserPassword(cursor.getString(4));
+                user.setUserAllergies(cursor.getString(5));
+                user.setUserMedications(cursor.getString(6));
+                user.setUserDiet(cursor.getString(7));
+                user.setUserExcercisePlan(cursor.getString(8));
+                user.setUserVitalSigns(cursor.getString(9));
+                user.setUserGoalNames(cursor.getString(10));
+                user.setUserGoalDescriptions(cursor.getString(11));
+                user.setUserGoalTimes(cursor.getString(12));
 
                 //ADD USER TO THE LIST
                 userArrayList.add(user);
@@ -178,7 +204,7 @@ class databaseHelper extends SQLiteOpenHelper {
         return userArrayList;
     }
 
-    //RETURNS THE NUMBER OF USERS IN THE DATABASE---------------------------------------------------
+    //RETURNS THE DATABASE---------------------------------------------------
     public Cursor getUserCount(){
         //??
         SQLiteDatabase db = this.getWritableDatabase();
@@ -187,37 +213,51 @@ class databaseHelper extends SQLiteOpenHelper {
     }
 
 
-    //RETURNS A USERS OBJECT FOR THE ID PROVIDED online version--------------------------------------
-    user getUser(String username) {
-
-        //OPEN DATABASE??
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        //CREATE CURSOR WHICH ALLOWS SEARCH WITHIN A DATABASE TABLE
-        user user;
-        try (Cursor cursor = db.query(TABLE_USER, new String[]{COLUMN_USER_ID, COLUMN_USER_NAME, COLUMN_USER_EMAIL,
-                        COLUMN_USER_PASSWORD, COLUMN_USER_ALLERGIES, COLUMN_USER_MEDICATION, COLUMN_USER_DIET,
-                        COLUMN_USER_EXCERCISEPLAN, COLUMN_USER_VITALSIGNS, COLUMN_USER_SGOALSNAME, COLUMN_USER_SGOALSDEP,
-                        COLUMN_USER_SGOALSTIME, COLUMN_USER_GOALS4, COLUMN_USER_LONGGOALS}, COLUMN_USER_NAME + "=?",
-                new String[]{username}, null, null, null, null)) {
-
-            //??
-            if (cursor != null) {
-                cursor.moveToFirst();
-
-
-            }
-
-            //CREATES NEW USER WITH THE DATA COLLECTED FROM THE CURSOR
-            user = new user(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                    cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8),
-                    cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13));
-
-            cursor.close();
-        }
-        return user;
-
-    }
+//    //RETURNS A USERS OBJECT FOR THE ID PROVIDED online version--------------------------------------
+//    user getUser(String username) {
+//
+//        //OPEN DATABASE??
+//        SQLiteDatabase db = this.getReadableDatabase();
+//
+//        //CREATE CURSOR WHICH ALLOWS SEARCH WITHIN A DATABASE TABLE
+//        user user;
+//        try (Cursor cursor = db.query(TABLE_USER, new String[]{COLUMN_USER_ID,
+//                                                                COLUMN_USER_NAME,
+//                                                                COLUMN_USER_USERNAME,
+//                                                                COLUMN_USER_EMAIL,
+//                                                                COLUMN_USER_PASSWORD,
+//                                                                COLUMN_USER_ALLERGIES,
+//                                                                COLUMN_USER_MEDICATION,
+//                                                                COLUMN_USER_DIET,
+//                                                                COLUMN_USER_EXCERCISEPLAN,
+//                                                                COLUMN_USER_VITALSIGNS,
+//                                                                COLUMN_USER_SGOALSNAME,
+//                                                                COLUMN_USER_SGOALSDEP,
+//                                                                COLUMN_USER_SGOALSTIME,
+//                                                                COLUMN_USER_GOALS4,
+//                                                                COLUMN_USER_LONGGOALS},
+//                                COLUMN_USER_NAME + "=?", new String[]{username},
+//                                null, null, null, null)) {
+//
+//            //??
+//            if (cursor != null) {
+//                cursor.moveToFirst();
+//            }
+//
+//            //CREATES NEW USER WITH THE DATA COLLECTED FROM THE CURSOR
+//            user = new user(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
+//                                            cursor.getString(2), cursor.getString(3),
+//                                            cursor.getString(4), cursor.getString(5),
+//                                            cursor.getString(6), cursor.getString(7),
+//                                            cursor.getString(8), cursor.getString(9),
+//                                            cursor.getString(10), cursor.getString(11),
+//                                            cursor.getString(12), cursor.getString(13));
+//
+//            cursor.close();
+//        }
+//        return user;
+//
+//    }
 
     //RETURNS THE USERNAME FOR THE EMAIL PROVIDED IF IT EXISTS IN THE DATABASE-----------------------
     String getUsername(String email)
@@ -241,24 +281,25 @@ class databaseHelper extends SQLiteOpenHelper {
         return name;
     }
 
-    //RETURNS THE PASSWORD FOR THE USERNAME PROVIDED IF IT EXISTS IN THE DATABASE-------------------
+    //Returns the password for the username provided if it exists in the database
+    //***Used in login page
     String getUserPassword(String userName)
     {
-        //OPEN DATABASE
+        //Open database
         SQLiteDatabase db = this.getWritableDatabase();
 
-        //CREATE CURSOR WHICH ITERATES THROUGH DATABASE'S USERNAME TABLE LOOKING FOR THE USERNAME PROVIDED
-        Cursor cursor=db.query(TABLE_USER, null, COLUMN_USER_NAME + " =?", new String[]{userName}, null, null, null);
+        //Create cursor which iterates through database's username table looking for the username provided
+        Cursor cursor = db.query(TABLE_USER, null, COLUMN_USER_USERNAME + " =?", new String[]{userName}, null, null, null);
 
-        //IF THE USERNAME IS NOT FOUND IN THE DATABASE AT LEAST ONCE
+        //If the username is not found in the database at least once
         if(cursor.getCount()<1) {
             cursor.close();
             return "Username does not exist";
         }
         cursor.moveToFirst();
 
-        //ASSIGN THE PASSWORD ASSIGNED TO THIS USERNAME TO THE VARIABLE PASSWORD
-        String password= cursor.getString(cursor.getColumnIndex( COLUMN_USER_PASSWORD));
+        //Assign the password assigned to this username to the variable password
+        String password = cursor.getString(cursor.getColumnIndex(COLUMN_USER_PASSWORD));
         cursor.close();
         return password;
     }
@@ -291,7 +332,7 @@ class databaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         //CREATE CURSOR WHICH ITERATES THROUGH DATABASE LOOKING FOR THE USERNAME
-        Cursor cursor=db.query(TABLE_USER, null, COLUMN_USER_NAME + " =?", new String[]{et_username.getText().toString()}, null, null, null);
+        Cursor cursor=db.query(TABLE_USER, null, COLUMN_USER_USERNAME + " =?", new String[]{et_username.getText().toString()}, null, null, null);
 
         if(cursor.getCount()<1) {//IF THE USERNAME IS NOT FOUND MEANING IT IS FOUND LESS THAN 1 TIMES
             cursor.close();
@@ -331,20 +372,46 @@ class databaseHelper extends SQLiteOpenHelper {
 
     }
 
-    //passes user name, user goal description, user goal time and user name into columns of database
-    public boolean updateGoals(String n, String d, String t, String un){
+    //Passes user name, user goal description, user goal time, and username into columns of database
+    public boolean updateGoals(String goalName, String goalDescription, String goalTime, String username){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_SGOALSNAME, n);
-        values.put(COLUMN_USER_SGOALSDEP, d);
-        values.put(COLUMN_USER_SGOALSTIME, t);
-        db.update(TABLE_USER, values, "user_name =?",new String[] {un} );
+
+        values.put(COLUMN_USER_SGOALSNAME, goalName);
+        values.put(COLUMN_USER_SGOALSDEP, goalDescription);
+        values.put(COLUMN_USER_SGOALSTIME, goalTime);
+        db.update(TABLE_USER, values, "user_username =?",new String[] {username} );
 
         return true;
-
     }
 
+    //Passes user name, user goal description, user goal time, and username into columns of database
+    public boolean addNewGoal(String goalName, String goalDescription, String goalTime, String username){
 
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        user User1 = new user();
+        String goals;
+
+        //Get a list of all user objects in the database
+        List<user> usersArrayList = new ArrayList<>(this.getUsers());
+        if(TextUtils.isEmpty(usersArrayList.get(User1.currentUserID - 1).getUserGoalNames())){
+            goals = "&" + goalName + "&";
+        }
+        else {
+            //Make a new string with the old goals and the new goals separated by &&&
+            goals = usersArrayList.get(User1.currentUserID - 1).getUserGoalNames() + goalName + "&";
+        }
+
+        values.put(COLUMN_USER_SGOALSNAME, goals);
+        values.put(COLUMN_USER_SGOALSDEP, goalDescription);
+        values.put(COLUMN_USER_SGOALSTIME, goalTime);
+
+        db.update(TABLE_USER, values, "user_username =?",new String[] {username} );
+
+        return true;
+    }
 
 }

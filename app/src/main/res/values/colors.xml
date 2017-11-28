@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorPrimary">#A600E4</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#A600E4</color>
+    <color name="saveButton">#B13E51</color>
+    <color name="viewDataButton">#663100</color>
+    <color name="signInButton">#006664</color>
+    <color name="registerButton">#466600</color>
+    <color name="startAppButton">#664B00</color>
+    <color name="submitButton">#1B6600</color>
+    <color name="newGoalButton">#001B66</color>
+    <color name="sendEmailButton">#D2BFD9</color>
+    <color name="barVisibilityButton">#443e3d</color>
 </resources>

@@ -9,10 +9,12 @@
     android:orientation="horizontal">
 
     <LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
+        android:id="@+id/navigationBar"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-    android:orientation="vertical">
+        android:orientation="vertical">
+
 
         <ImageButton
             android:id="@+id/ProfilePage"
@@ -27,25 +29,28 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:onClick="gotoHealthCareMenuActivity"
             android:background="#e69f00"
+            android:onClick="gotoHealthCareMenuActivity"
             app:srcCompat="@drawable/heart1" />
+
         <ImageButton
             android:id="@+id/Personal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:onClick="gotoGoalsMenuActivity"
             android:background="#009e73"
+            android:onClick="gotoGoalsMenuActivity"
             app:srcCompat="@drawable/goals1" />
+
         <ImageButton
             android:id="@+id/Contacts"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="#e69f00"
-            app:srcCompat="@drawable/contacts"
-            android:onClick="gotoContactsActivity" />
+            android:onClick="gotoContactsActivity"
+            app:srcCompat="@drawable/contacts" />
+
         <ImageButton
             android:id="@+id/Settings"
             android:layout_width="match_parent"
@@ -53,15 +58,35 @@
             android:layout_weight="1"
             android:background="#009e73"
             android:onClick="gotoSettingsActivity" />
+
         <ImageButton
             android:id="@+id/logOut"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="#e69f00"
-            android:onClick="gotoLoginActivity"/>
+            android:onClick="gotoLoginActivity" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_barVisibility"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/barVisibilityButton"
+            android:onClick="changeBarVisibility"
+            android:text="&lt; &lt; &lt;"
+            android:textColor="#ffffff"
+            />
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -70,8 +95,6 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-
         </ScrollView>
 
     </LinearLayout>

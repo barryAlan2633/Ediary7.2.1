@@ -16,48 +16,58 @@ import android.widget.Toast;
 
 public class login extends AppCompatActivity {
 
+    //Define a user object to access user info
     user User1 = new user();
+
+    //Login page buttons declaration
     Button btn_Lsignin;
     Button btn_LforgotLogin;
     EditText et_Lusername;
     EditText et_Lpassword;
     CheckBox cb_LpasswordVisibility;
+
+    //Defines the number of times a user fails to provide a valid login
     int numberOfTries = 0;
 
-    //EVERYTHING THAT HAPPENS IN LOGIN PAGE RUNS FROM HERE-----------------------------------
+    //Everything that happens in login page runs from here
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //CREATE AND LINK BUTTONS AND TEXT BOXES TO THE ONES ON THE DISPLAY
+        //Create and link buttons and text boxes to the ones on the display
         btn_Lsignin = (Button) findViewById(R.id.btn_Lsignin);
         btn_LforgotLogin = (Button) findViewById(R.id.btn_LforgotLogin);
         et_Lusername = (EditText) findViewById(R.id.et_Lusername);
         et_Lpassword = (EditText) findViewById(R.id.et_Lpassword);
         cb_LpasswordVisibility = (CheckBox) findViewById(R.id.cb_LshowPassword);
 
-        //IF THE BUTTON LINKED TO LOGIN IS CLICKED
+        //If the button linked to btn_Lsignin is clicked on
         btn_Lsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //CHECK IF THE USER INPUTTED A USERNAME AND PASSWORD
+                //Check if the user inputted a username and password
                 if (!(isEmpty(et_Lusername)) & !(isEmpty(et_Lpassword))) {
-                    if (isValid(et_Lusername, et_Lpassword)) { //CHECK IF INFO IS A VALID USERS'
-                        //Log.e("hello", " got into onclick");
-                        User1.setCurrentUserName(et_Lusername.getText().toString());
-                        gotoProfilePageActivity(v);
+                    if (isValid(et_Lusername, et_Lpassword)) { //Are the provided credentials valid?
+                        //Are the valid login credentials those of an admin?
+                        if(et_Lusername.getText().toString().compareTo("Admin123") == 0 && et_Lpassword.getText().toString().compareTo("coco123") == 0){
+                            gotoAdminActivity(v);
+                        }
+                        else {
+                            User1.setCurrentUserName(et_Lusername.getText().toString());
+                            gotoProfilePageActivity(v);
+                        }
                     }
                 }
             }
         });
 
 
-        //ALLOWS THE USE OF THE SHOW PASSWORD FEATURE IN THE LOGIN PAGE-----------------------------
+        //Allows the use of the show password feature in the login page
         cb_LpasswordVisibility.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //CHECKBOX STATUS IS CHANGED FROM UNCHECKED TO CHECKED
+                //Checkbox status is changed from unchecked to checked
                 if (!isChecked) {
                     // SHOW PASSWORD
                     et_Lpassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -69,7 +79,7 @@ public class login extends AppCompatActivity {
         });
     }
 
-    //CHECKS IF THE TEXT BOX IS EMPTY OR NOT--------------------------------------------------------
+    //Checks if the text box is empty or not
     public boolean isEmpty(EditText edittext) {
 
         String message;
@@ -85,55 +95,58 @@ public class login extends AppCompatActivity {
                 message = "Enter a value";
                 break;
         }
-        //VARIABLES FOR THE MESSAGE
+
+        //Variables for the message
         Context context = getApplicationContext();
         CharSequence text = "Please Enter all values";
         int duration = Toast.LENGTH_SHORT;
 
-        //CREATES MESSAGE
+        //Creates message
         Toast toast = Toast.makeText(context, text, duration);
 
         String value = edittext.getText().toString();
         if (value.isEmpty()) {
-            edittext.setError(message);//message is chosen on switch statement above
-            toast.show(); //DISPLAYS MESSAGE
+            edittext.setError(message);//Message is chosen on switch statement above
+            toast.show(); //Displays message
             return true;
-        } else {
+        }
+        else {
             return false;
         }
 
     }
 
-    //CHECKS IF USERNAME AND PASSWORD ARE IN THE DATABASE AND MATCH EACHOTHER-----------------------
+    //Checks if username and password are in the database and match each other
     public boolean isValid(EditText usernametext, EditText passwordtext) {
 
-        //CREATING THE LOGIN SUCCESSFUL MESSAGE
+        //Creating a new instance of the database in order to access it
+        databaseHelper lbh = new databaseHelper(this);
+
+        //Creating the login successful message
         Context context = getApplicationContext();
         CharSequence text = "Login Successful!";
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
 
-        //CREATING THE LOGIN FAILED MESSAGE
+        //Creating the login failed message
         Context context1 = getApplicationContext();
         CharSequence text1 = "Login Failed!" + numberOfTries;
         int duration1 = Toast.LENGTH_SHORT;
         Toast toast1 = Toast.makeText(context1, text1, duration1);
 
-        //CREATING A NEW INSTANCE OF THE DATABASE IN ORDER TO ACCESS IT
-        databaseHelper lbh = new databaseHelper(this);
-
-        //GET THE INPUTTED TEXT FROM THE TEXT BOXES
+        //Get the inputted text from the text boxes
         String userName = usernametext.getText().toString();
         String password = passwordtext.getText().toString();
 
-        // FETCH THE PASSWORD FROM THE DATABASE FROM THE RESPECTIVE USERNAME
+        // Fetch the password from the database from the respective username
         String storedPassword = lbh.getUserPassword(userName);
 
-        //GIVES YOU THREE TRIES UNTIL THE SYSTEM ALLOWS FOR A FORGOT LOGIN
+        //Gives you three tries until the system allows for a forgot login
         if (numberOfTries > 1) {
             btn_LforgotLogin.setVisibility(View.VISIBLE);
         }
-        //VALIDATE THE PASSWORD WITH THE ONE ON THE DATABASE
+
+        //Validate the password with the one on the database
         if (password.equals(storedPassword)) {
             toast.show();
             return true;
@@ -144,7 +157,7 @@ public class login extends AppCompatActivity {
         }
     }
 
-    //LINK THE LOGIN PAGE TO THE PROFILE PAGE THROUGH THE BUTTON-------------------------------
+    //LINK THE LOGIN PAGE TO THE PROFILE PAGE THROUGH THE BUTTON------------------------------------
     public void gotoProfilePageActivity(View view) {
         Intent name = new Intent(this, profilePage.class);
         startActivity(name);
@@ -156,12 +169,15 @@ public class login extends AppCompatActivity {
         startActivity(name);
     }
 
-
     //LINK THE LOGIN PAGE TO THE FORGOT LOGIN PAGE--------------------------------------------------
     public void gotoForgotLoginActivity(View view) {
         Intent name = new Intent(this, forgotLogin.class);
         startActivity(name);
     }
 
-
+    //LINK THE LOGIN PAGE TO THE ADMIN PAGE---------------------------------------------------------
+    public void gotoAdminActivity(View view) {
+        Intent name = new Intent(this, Admin.class);
+        startActivity(name);
+    }
 }

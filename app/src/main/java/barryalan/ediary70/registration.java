@@ -15,26 +15,26 @@ import android.widget.Toast;
 
 public class registration extends AppCompatActivity {
 
-    //REGISTRATION PAGE BUTTONS
+    //Registration page buttons declaration
     Button btn_submit;
     EditText et_name;
+    EditText et_username;
     EditText et_password;
     EditText et_passwordVerification;
-    EditText et_username;
     EditText et_email;
     CheckBox cb_passwordVisibility;
 
-    //LOGIN PAGE BUTTONS
+    //Login page buttons declaration
     EditText et_username1;
     EditText et_password1;
 
-    //EVERYTHING THAT HAPPENS IN REGISTRATION PAGE RUNS FROM HERE-----------------------------------
+    //Everything that happens in registration page runs from here
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        //CREATE AND LINK REGISTRATION PAGE BUTTONS AND TEXT BOXES TO THE ONES ON THE DISPLAY
+        //Create and link registration page buttons and text boxes to the ones on the display
         btn_submit = (Button) findViewById(R.id.btn_Rsubmit);
         et_name = (EditText) findViewById(R.id.et_Rname);
         et_password = (EditText) findViewById(R.id.et_Rpassword);
@@ -43,28 +43,31 @@ public class registration extends AppCompatActivity {
         et_email = (EditText) findViewById(R.id.et_Remail);
         cb_passwordVisibility = (CheckBox) findViewById (R.id.cb_RpasswordVisibility);
 
-        //CREATE AND LINK LOGIN PAGE BUTTONS AND TEXT BOXES TO THE ONES ON THE DISPLAY
+        //Create and link login page buttons and text boxes to the ones on the display
         et_password1 = (EditText) findViewById(R.id.et_Lpassword);
         et_username1 = (EditText) findViewById(R.id.et_Lusername);
 
-        //CREATE A NEW INSTANCE OF THE DATABASE FOR ACCESS
+        //Create a new instance of the database for access
         final databaseHelper db = new databaseHelper(this);
 
-        //IF THE BUTTON LINKED TO BTN IS CLICKED----------------------------------------------------
+        //If the button linked to btn_submit is clicked on
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //CONSTRAINTS CHECKS ON THE REGISTRATION PAGE FIELDS
-                if(!(isEmpty(et_name)) & !(isEmpty(et_password)) & !(isEmpty(et_username)) & !(isEmpty(et_email))){//check if all boxes have an input
-                    if(!(db.isUsernameTaken(et_username))){ //check if username is taken
-                        if(!(db.isEmailTaken(et_email))){ //check if email is taken
-                            if(isUsernameLengthValid(et_username)) { //check if username is the allowed length
-                                if(isPasswordLengthValid(et_password)) { //check if password is the allowed length
-                                    if(doesPasswordContainNumber(et_password)) { //check if password has at least one number
-                                        if(!(isUsernameInPassword(et_username, et_password))) { //check if username is included in the password
-                                            if(doPasswordsMatch(et_password,et_passwordVerification)){ //check if password fields input matches
-                                                if(isEmailExtensionValid(et_email)){ //check if email extension is valid Ex. @gmail.com
-                                                    db.addUser(new user(et_username.getText().toString(), et_email.getText().toString(), et_password.getText().toString()));
+                //Create a user with the information inputted in the registration page
+                user user1 =  new user(et_name.getText().toString(),et_username.getText().toString(), et_email.getText().toString(), et_password.getText().toString());
+
+                //Constraint checks on the registration page fields
+                if(!(isEmpty(et_name)) & !(isEmpty(et_password)) & !(isEmpty(et_username)) & !(isEmpty(et_email))){//Check if all boxes have an input
+                    if(!(db.isUsernameTaken(et_username))){ //Is username taken
+                        if(!(db.isEmailTaken(et_email))){ //Is email taken
+                            if(isUsernameLengthValid(et_username)) { //Is username the allowed length
+                                if(isPasswordLengthValid(et_password)) { //Is password the allowed length
+                                    if(doesPasswordContainNumber(et_password)) { //Does password have at least one number
+                                        if(!(isUsernameInPassword(et_username, et_password))) { //If username included in the password
+                                            if(doPasswordsMatch(et_password,et_passwordVerification)){ //Do password fields inputs match
+                                                if(isEmailExtensionValid(et_email)){ //Is email extension valid Ex. @gmail.com
+                                                    db.addUser(user1);
                                                     db.close();
                                                     gotoLoginPage();
                                                 }
@@ -79,8 +82,8 @@ public class registration extends AppCompatActivity {
             }
         });
 
-        //ALLOWS THE USE OF THE SHOW PASSWORD FEATURE IN THE LOGIN PAGE-----------------------------
 
+        //Allows the use of the show password feature in the login page
         cb_passwordVisibility.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //CHECKBOX STATUS IS CHANGED FROM UNCHECKED TO CHECKED
@@ -105,7 +108,7 @@ public class registration extends AppCompatActivity {
         startActivity(name);
     }
 
-    //CHECKS IF THE TEXT BOX IS EMPTY --------------------------------------------------------------
+    //Checks if a text box is empty
     public boolean isEmpty(EditText edittext) {
 
         String message;
@@ -148,7 +151,7 @@ public class registration extends AppCompatActivity {
 
     }
 
-    //CHECKS IF USERNAME IS BETWEEN 3 AND 21 CHARACTERS---------------------------------------------
+    //Checks if username is between 3 and 21 characters
     public boolean isUsernameLengthValid(EditText et_username){
         if(et_username.getText().length() > 1 & et_username.getText().length() < 22){
             return true;
@@ -157,7 +160,7 @@ public class registration extends AppCompatActivity {
         return false;
     }
 
-    //CHECKS IF PASSWORD IS BETWEEN 3 AND 16 CHARACTERS---------------------------------------------
+    //Checks if password is between 3 and 16 characters
     public boolean isPasswordLengthValid(EditText et_password){
         if(et_password.getText().length() > 1 & et_password.getText().length() < 17){
             return true;
@@ -166,7 +169,7 @@ public class registration extends AppCompatActivity {
         return false;
     }
 
-    //CHECKS IF USERNAME IS INCLUDED IN PASSWORD----------------------------------------------------
+    //Checks if first string (username) is included in second string (password)
     public boolean isUsernameInPassword(EditText et_username, EditText et_password){
         if(et_password.getText().toString().contains(et_username.getText().toString())) {
             et_password.setError("Username cannot be part of your password");
@@ -175,7 +178,7 @@ public class registration extends AppCompatActivity {
         return false;
     }
 
-    //CHECKS IF PASSWORD CONTAINS A NUMBER----------------------------------------------------------
+    //Checks if string (password) contains number
     public boolean doesPasswordContainNumber(EditText et_password){
         //.* means any character from 0 to infinite occurence, than the \\d+
         // (double backslash I think is just to escape the second backslash) and \d+ means a digit from 1 time to infinite.
@@ -186,7 +189,7 @@ public class registration extends AppCompatActivity {
         return false;
     }
 
-    //CHECKS IF PASSWORD VERIFICATION MATCHES PASSWORD----------------------------------------------
+    //Checks if first string (password) matches second string (password verification)
     public boolean doPasswordsMatch(EditText et_password, EditText et_passwordVerification){
         if(et_passwordVerification.getText().toString().matches(et_password.getText().toString())){
             return true;
@@ -195,7 +198,7 @@ public class registration extends AppCompatActivity {
         return false;
     }
 
-    //CHECKS IF THE EMAIL ADDRESS EXTENSION IS VALID------------------------------------------------
+    //Checks if the email extension matches one of the supported extensions
     public boolean isEmailExtensionValid(EditText et_email){
         if(et_email.getText().toString().endsWith("@hotmail.com") || et_email.getText().toString().endsWith("@gmail.com") ||
                 et_email.getText().toString().endsWith("@txwes.edu") || et_email.getText().toString().endsWith("@yahoo.com") ||

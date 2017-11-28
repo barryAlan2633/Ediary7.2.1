@@ -26,13 +26,8 @@ public class shortTermGoals extends AppCompatActivity {
     user User1 = new user();
     EditText ShortTerm1;
 
-
     Button save;
     Button edit;
-
-
-
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

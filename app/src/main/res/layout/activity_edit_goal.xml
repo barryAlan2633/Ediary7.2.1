@@ -4,32 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="barryalan.ediary70.newGoal">
+    tools:context="barryalan.ediary70.EditGoal">
 
-    <Spinner
-        android:id="@+id/sp_NGgoalType"
-        android:layout_width="368dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:drawSelectorOnTop="true"
-        android:entries="@array/GoalTypes"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/et_NGname"
+        android:id="@+id/et_EGname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="48dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sp_NGgoalType" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/et_NGgoalDescription"
+        android:id="@+id/et_EGgoalDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
@@ -38,10 +30,10 @@
         android:hint="Description"
         android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_NGname" />
+        app:layout_constraintTop_toBottomOf="@+id/et_EGname" />
 
     <EditText
-        android:id="@+id/et_NGtimeAllowed"
+        android:id="@+id/et_EGtimeAllowed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -52,41 +44,30 @@
         android:inputType="numberSigned"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_NGgoalDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/et_EGgoalDescription" />
 
     <Button
-        android:id="@+id/btn_NGsave"
+        android:id="@+id/btn_EGsave"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
-        android:layout_marginLeft="16dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="36dp"
+        android:layout_marginLeft="148dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:background="@color/saveButton"/>
-
-    <Button
-        android:id="@+id/btn_NGView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginLeft="172dp"
-        android:text="View Data"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:background="@color/viewDataButton"/>
+        android:background="@color/saveButton" />
 
     <Spinner
-        android:id="@+id/sp_NtimeType"
+        android:id="@+id/sp_EGtimeType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="256dp"
-        android:drawSelectorOnTop="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="168dp"
         android:entries="@array/timeTypes"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/et_NGtimeAllowed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.564"
+        app:layout_constraintStart_toEndOf="@+id/et_EGtimeAllowed"
         app:layout_constraintTop_toTopOf="parent" />
 
 

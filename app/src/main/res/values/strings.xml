@@ -4,4 +4,10 @@
         <item>Long Term</item>
         <item>Short Term</item>
     </string-array>
+
+    <string-array name="timeTypes">
+        <item>Minutes</item>
+        <item>Hours</item>
+        <item>Days</item>
+    </string-array>
 </resources>
