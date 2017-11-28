@@ -27,6 +27,7 @@ class databaseHelper extends SQLiteOpenHelper {
     private static final String HEALTH_TABLE= "health";
 
 
+
     //USER TABLE COLUMN NAMES-----------------------------------------------------------------------
     public static final String COLUMN_USER_ID = "user_id";
     private static final String COLUMN_USER_NAME = "user_name";
@@ -48,8 +49,43 @@ class databaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_GOALS4 = "short_goal4";
     private static final String COLUMN_USER_LONGGOALS = "long_goals";
 
+    //NETWORKS & CONTACTS TABLE---------------------------------------------------------------------
+    //table name
+    private static final String TABLE_NC = "networks & contacts";
+    private static final String COLUMN_NC_USER_ID = COLUMN_USER_ID;
+    private static final String COLUMN_NC_USER_NAME = COLUMN_USER_NAME;
+    public static final String COLUMN_NC_NAME = "nc_contact_name";
+    public static final String COLUMN_NC_AFFILIATION = "nc_affiliation";
+    public static final String COLUMN_NC_DATE = "nc_date";
+    public static final String COLUMN_NC_NUMBER_USAGES = "nc_usages";
+    public static final String COLUMN_NC_COMMENTS = "nc_comments";
 
-    //CONSTRUCTOR-----------------------------------------------------------------------------------
+    //FINANCIAL GOALS TABLE
+    private static final String TABLE_FG = "financial goals";
+    private static final String COLUMN_FG_USER_ID = COLUMN_USER_ID;
+    private static final String COLUMN_FG_USER_NAME = COLUMN_USER_NAME;
+    public static final String COLUMN_FG_CASH = "fg_cash";
+    public static final String COLUMN_FG_ASSETS = "fg_assets";
+    public static final String COLUMN_FG_LIABILITIES = "fg_liabilities";
+    public static final String COLUMN_FG_CREDITCARD1 = "fg_creditcard1";
+    public static final String COLUMN_FG_CREDITCARD1_B = "fg_creditcard1_b";
+    public static final String COLUMN_FG_CREDITCARD2 = "fg_creditcard2";
+    public static final String COLUMN_FG_CREDITCARD2_B = "fg_creditcard2_b";
+    public static final String COLUMN_FG_STOCKS = "fg_stocks";
+    public static final String COLUMN_FG_SGOALSNAME = "fg_shortgoal_name";
+    public static final String COLUMN_FG_SGOALSDEP = "fg_shortgoal_dep";
+    public static final String COLUMN_FG_SGOALSDTIME = "fg_shortgoal_time";
+    public static final String COLUMN_FG_LGOALSNAME = "fg_longtermgoal_name";
+    public static final String COLUMN_FG_LGOALSDEP = "fg_longtermgoal_dep";
+    public static final String COLUMN_FG_LGOALSTIME = "fg_longtermgoal_time";
+
+    //CAREER & EDUCATIONAL GOALS
+    private static final String TABLE_CE = "career & education goals";
+    private static final String COLUMN_CE_USER_ID = COLUMN_USER_ID;
+    private static final String COLUMN_CE_USER_NAME = COLUMN_USER_NAME;
+    private static final String COLUMN_CE_GOAL = "goal";
+
+    //CONSTRUCTOR----------------------------------------------------------- private static final String COLUMN_CE_USER_NAME = COLUMN_USER_NAME;------------------------
     databaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -78,9 +114,51 @@ class databaseHelper extends SQLiteOpenHelper {
                 + COLUMN_USER_GOALS4 + " TEXT,"
                 + COLUMN_USER_LONGGOALS + " TEXT"
                 + ")";
+        //CREATES NETWORKS & CONTACTS TABLE
+        String CREATE_NETWORKS_CONTACTS_TABLE = " CREATE TABLE " + TABLE_NC
+                + "("
+                + COLUMN_NC_USER_ID  + " INTEGER PRIMARY KEY,"
+                + COLUMN_NC_USER_NAME + " TEXT,"
+                + COLUMN_NC_NAME + " TEXT,"
+                + COLUMN_NC_AFFILIATION + " TEXT,"
+                + COLUMN_NC_DATE  + " TEXT,"
+                + COLUMN_NC_NUMBER_USAGES + " TEXT,"
+                + COLUMN_NC_COMMENTS + " TEXT"
+                + ")";
+        //CREATES FINANCIAL GOALS TABLE
+        String CREATE_FINANCIAL_GOALS_TABLE = " CREATE TABLE " + TABLE_FG
+                + "("
+                + COLUMN_FG_USER_ID   + " INTEGER PRIMARY KEY,"
+                + COLUMN_FG_USER_NAME + " TEXT,"
+                + COLUMN_FG_CASH + " TEXT,"
+                + COLUMN_FG_ASSETS + " TEXT,"
+                + COLUMN_FG_LIABILITIES  + " TEXT,"
+                + COLUMN_FG_CREDITCARD1 + " TEXT,"
+                + COLUMN_FG_CREDITCARD1_B + " TEXT,"
+                + COLUMN_FG_CREDITCARD2 + " TEXT,"
+                + COLUMN_FG_CREDITCARD2_B + " TEXT,"
+                + COLUMN_FG_STOCKS  + " TEXT,"
+                + COLUMN_FG_SGOALSNAME + " TEXT,"
+                + COLUMN_FG_SGOALSDEP + " TEXT,"
+                + COLUMN_FG_SGOALSDTIME + " TEXT,"
+                + COLUMN_FG_LGOALSNAME  + " TEXT,"
+                + COLUMN_FG_LGOALSDEP  + " TEXT,"
+                +  COLUMN_FG_LGOALSTIME+ " TEXT"
+                + ")";
+
+        //CREATES CAREER & EDUCATION GOALS
+        String CREATE_CE_GOALS_TABLE = " CREATE TABLE " + TABLE_CE
+                + "("
+                + COLUMN_CE_USER_ID   + " INTEGER PRIMARY KEY,"
+                + COLUMN_CE_USER_NAME + " TEXT,"
+                + COLUMN_CE_GOAL + " TEXT"
+                + ")";
 
         //CREATES TABLE IN THE DATABASE USING THE QUERY
         db.execSQL(CREATE_USER_TABLE);
+        db.execSQL(CREATE_NETWORKS_CONTACTS_TABLE);
+        db.execSQL(CREATE_FINANCIAL_GOALS_TABLE );
+        db.execSQL(CREATE_CE_GOALS_TABLE);
 
     }
 
@@ -88,7 +166,14 @@ class databaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
+        String DROP_NETWORKS_CONTACTS_TABLE = "DROP TABLE IF EXISTS " + TABLE_NC;
+        String DROP_FINANCIAL_GOALS_TABLE = "DROP TABLE IF EXISTS " + TABLE_NC;
+        String DROP_CE_GOALS_TABLE = "DROP TABLE IF EXISTS " + TABLE_CE;
         db.execSQL(DROP_USER_TABLE);
+        db.execSQL(DROP_NETWORKS_CONTACTS_TABLE);
+        db.execSQL(DROP_FINANCIAL_GOALS_TABLE);
+        db.execSQL(DROP_CE_GOALS_TABLE);
+
         onCreate(db);
     }
 
@@ -115,6 +200,23 @@ class databaseHelper extends SQLiteOpenHelper {
 
         //INSERTING VALUES INTO THE DATABASE UNDER THE USER
         db.insert(TABLE_USER, null, values);
+        //CLOSING DATABASE
+        db.close();
+    }
+
+    //create networks and Contacts columns----------------------------------------------------------
+    void addNetworksContacts(networksandcontactsDAO networksandcontactsDAO)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NC_NAME, networksandcontactsDAO.getNcContactsName());
+        values.put(COLUMN_NC_AFFILIATION, networksandcontactsDAO.getNcAffiliation());
+        values.put(COLUMN_NC_DATE, networksandcontactsDAO.getNcDate());
+        values.put(COLUMN_NC_NUMBER_USAGES, networksandcontactsDAO.getNcUsages());
+        values.put(COLUMN_NC_COMMENTS, networksandcontactsDAO.getNcComments());
+
+        //INSERTING VALUES INTO THE DATABASE UNDER THE USER
+        db.insert(TABLE_NC, null, values);
         //CLOSING DATABASE
         db.close();
     }
